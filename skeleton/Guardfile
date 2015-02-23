@@ -1,5 +1,13 @@
 notification :off
 
-guard 'rake', :task => 'test' do
-  watch(%r{^manifests\/(.+)\.pp$})
+guard :rspec, cmd: 'bundle exec rspec' do
+  watch(%r{^manifests\/(.+)\.pp$}) do |m|
+    "spec/classes/#{m[1]}_spec.rb"
+  end
+
+  watch(%r{^lib/(.+)\.rb$}) do
+    "spec/lib/#{m[1]}_spec.rb
+  end
+
+  watch(%r{^spec/.+_spec\.rb$})
 end
